@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+<link rel="stylesheet" href="{% static '/css/blog_detail.css' %}">
+    <div class="card mt-5 mb-5" >
+        <div class="card-body">    
+          {% if blog.images %}
+          <img src="{{blog.images.url}}" class="img-fluid" alt="Responsive image">
+          {% endif %}
+         
+          
+          <h5 class="card-title">{{blog.title}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+          <p class="card-text img-fluid">{{blog.body|safe}}</p>
+          <p class="text-left">{{blog.author}}<br>{{blog.date_created}}</p>
+          
+          
+          
+          {% if user.is_superuser or user.is_staff%}
+          <a class="text-right btn btn-info" href="{% url 'page:blog_edit' slug=blog.slug %}">Edit</a>
+          <a class="btn btn-danger" href="{% url 'page:blog_delete' slug=blog.slug %}" class="card-link">Delete</a>
+            
+          {% endif %}
+        </div>
+
+      </div>
+  
+        
+
+{% endblock body_block %}
+      

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+
+{% block body_block %}
+<div class="mt-5">
+
+{% if user.is_authenticated %}
+
+<a class="btn btn-info" href="{% url 'groups:group_create' %}">New Group+</a>
+  
+{% endif %}
+  
+
+<ul class="list-unstyled">
+{% for group in groups %}
+
+<li>
+        <div class="mt-4">
+        <div class="card" style="width: auto;">
+            <div class="card-body">
+              <h5 class="card-title">{{group.title}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ group.data_created|date:"d M, Y" }}</h6>
+              <p class="card-text">{{ group.description }}</p>
+              
+              {% if user not in group.members.all %}
+              <a href="{% url 'groups:group_join' slug=group.slug %}" class="btn btn-success">Join</a>
+              
+              
+              {% endif %}
+              <a href="{% url 'groups:group_detail' slug=group.slug %}" class="btn btn-info">View Group</a>
+                
+              
+            </div>
+          </div>
+        </div>
+        
+
+</li>
+
+    
+{% endfor %}
+</ul>
+</div>
+
+{% endblock body_block %}

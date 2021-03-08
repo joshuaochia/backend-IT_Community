@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block body_block %}
+<link rel="stylesheet" href="{% static '/css/index.css' %}">
+<title>IT Community</title>
+
+
+
+{% if user.is_authenticated %}
+<div id="header">
+    <h1>Pota</h1>
+    </div>
+    
+        <h1>ews</h1>
+{% else %}
+    
+{% endif %}
+    
+
+{% endblock body_block %}
+    

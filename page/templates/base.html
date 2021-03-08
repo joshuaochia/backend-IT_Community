@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static '/css/base.css' %}">
+</head>
+<body>
+
+    
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+        <a id='navbrand' class="navbar-brand" href="{% url 'page:home_page' %}">
+          <img src="{% static 'images/base/icon.png' %}" width="30" height="30" class="d-inline-block align-top" alt="">
+          IT Community
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul  class="navbar-nav mr-auto pl-5">
+
+              <li class="nav-item pl-5">
+                <a id='navbar' class="nav-link" href="{% url 'groups:group_page' %}">Groups</a>
+              </li>
+              <li class="nav-item dropdown pl-5">
+                <a id='navbar' class="nav-link dropdown-toggle"href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Top Topics</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">Django  <span style="font-size: 10px;" class="text-muted float-right">10+ post</span></a>
+                  <a class="dropdown-item" href="#">React<span style="font-size: 10px;" class="text-muted float-right">10+ post</span></a>
+                  <a class="dropdown-item" href="#">Lavarel<span style="font-size: 10px;" class="text-muted float-right">10+ post</span></a>
+                  <a class="dropdown-item" href="#">Angular<span style="font-size: 10px;" class="text-muted float-right">10+ post</span></a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">View all Hot Topics</a>
+                </div>
+              </li>
+              <li class="nav-item pl-5">
+                <a id='navbar' class="nav-link" href="{% url 'page:resources_page' %}">Resources</a>
+              </li>
+              <li class="nav-item pl-5">
+                <a id='navbar' class="nav-link" href="{% url 'page:blog_page' %}">Blog</a>
+              </li>
+            </ul>
+            
+
+            <ul class="navbar-nav mr-right ">
+                
+                {% if user.is_authenticated %}
+
+                <li class="nav-item">
+                  <a id='navbar' class="nav-link" href="{% url 'page:profile_view' slug=user.profile.slug %}">{{user.username}}</a>
+                </li>
+                <li class="nav-item">
+                  <a id='navbar' class="nav-link" href="{% url 'account_logout' %}">Log Out</a>
+                </li>
+
+                {% else %}
+              <li class="nav-item">
+                  <a id='navbar' class="nav-link" href="{% url   'account_login' %}">Log In</a>
+                </li>
+              <li class="nav-item pl-3">
+                  <a  id='navbar' class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+              </li>                  
+                {% endif %}
+                  
+
+            </ul>
+
+        </div>
+    </nav>
+    
+    <div class="container">
+    {% block body_block %}
+        
+    {% endblock body_block %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

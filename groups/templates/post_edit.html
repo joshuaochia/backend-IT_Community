@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+
+<form action="" method="POST" enctype="multipart/form-data">
+    {{ user.username }}
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class='btn btn-info' type="submit">Update</button>
+</form>
+    
+{% endblock body_block %}

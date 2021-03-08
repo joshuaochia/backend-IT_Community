@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block body_block %}
+    
+    <div class="mt-5">
+    {% if user.is_authenticated %}
+    <h2 class='mb-5'>
+        Create new group
+        <small class="text-muted h6">Be sure to fill in the blanks</small>
+      </h2>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class='btn btn-primary' type="submit" value="Submit">
+    </form>
+        
+        
+    {% endif %}
+    </div>
+
+{% endblock body_block %}
+    

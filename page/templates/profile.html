@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block body_block %}
+<link rel="stylesheet" href="{% static '/css/profile.css' %}">
+<div class="body">
+
+
+
+<div class="row mt-5">
+<div class="col-md-12">
+
+  <div class="card mb-3">
+    <img class="card-img-top" src="{{user.profile.cover.url}}" alt="Card image cap">
+    <div class="card-body">
+      <img  id="profile" class="rounded-circle" src="{{user.profile.image.url}}">
+      <h5 class="card-title text-center">{{user.first_name}} {{user.last_name}} <br><a href="{% url 'page:profile_view' slug=user.profile.slug %}"><small>@{{user.username}}</small></a></h5>
+      <p class="card-text text-center">{{user.profile.bio}}</p>
+      <a  class="d-flex justify-content-center" href="{% url 'page:profile_edit' slug=user.profile.slug %}">Edit+</a>
+    </div>
+  </div>
+  
+  
+  
+  
+
+</div>
+
+<div class="col-md-12" ">
+{% for post in posts.all %}
+
+
+  
+  {% if user == post.user or user in post.admin.all %}
+
+      
+  <div class="card mt-3 mb-3">
+    <div class="card-header">
+      <a href="{% url 'page:profile_view' slug=user.profile.slug %}">@{{post.user.username}}</a>
+   
+      <a href="{% url 'groups:post_edit' pk=post.pk %}" class="btn btn-info float-right ml-2">Edit</a>
+      <a href="{% url 'groups:post_delete' pk=post.pk %}" class="btn btn-warning float-right">Delete</a>
+ 
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{post.date_created}}</h5>
+      <p class="card-text">{{post.body}}</p>
+    
+
+
+      
+      
+        
+      
+    </div>
+  </div>
+  {% endif %}
+  
+{% endfor %}
+  
+
+</div>
+
+
+
+
+
+</div>
+</div>
+{% endblock body_block %}
+    
