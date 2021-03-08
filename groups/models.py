@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
@@ -30,9 +31,16 @@ class Group(models.Model):
     def get_absolute_url(self):
         return reverse("groups:group_detail", kwargs={'slug': self.slug})
 
+category_choices = [
+    ('Django', 'Django'),
+    ('React', 'React'),
+    ('Laravel', 'Lavarel'),
+    ('Angular', 'Angular'),
+]
 
-class Tag(models.Model):
-    name = models.CharField(max_length=256)
+class Category(models.Model):
+    name = models.CharField(max_length=56, choices=category_choices, default='Django')
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
 
 
 class GroupPost(models.Model):
@@ -48,6 +56,19 @@ class GroupPost(models.Model):
         )
     body = RichTextUploadingField(blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+
+
+    @staticmethod
+    def get_all_post(self):
+
+        return GroupPost.objects.all()
+
+    @staticmethod
+    def get_all_post(self):
+
+        return GroupPost.objects.filter(category=self.category)
+
 
     def get_absolute_url(self):
         return reverse(

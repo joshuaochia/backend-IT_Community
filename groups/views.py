@@ -115,4 +115,4 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 class PostEditView(LoginRequiredMixin, UpdateView):
     model = models.GroupPost
     template_name = 'post_edit.html'
-    fields = ['body', ]
+   

@@ -5,9 +5,10 @@ from django.views.generic import (
                                  CreateView, DeleteView, UpdateView,
                                  )
 from .models import Blog
-from page.forms import BlogCreateForm
+from page.forms import BlogCreateForm, ProfileUpdateForm
 from django.urls import reverse, reverse_lazy
 from groups.models import GroupPost
+from core.models import Profile
 from core import models
 from django.contrib.auth import get_user_model
 
@@ -70,6 +71,8 @@ class ProfileView(LoginRequiredMixin, ListView):
 
 
 class ProfileEdit(LoginRequiredMixin, UpdateView):
-    model = models.Profile
+    model = Profile
+    form_class = ProfileUpdateForm
     template_name = 'profile_update.html'
-    fields = ['bio', ]
+    
+    

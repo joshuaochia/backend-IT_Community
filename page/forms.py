@@ -19,11 +19,6 @@ class BlogCreateForm(forms.ModelForm):
         }
 
 
-class ProfileUpdateForm(forms.ModelForm):
-
-    class Meta:
-        model = Profile
-        fields = ['bio', ]
 
 
 class CustomSignupForm(SignupForm):
@@ -72,3 +67,16 @@ class CustomSignupForm(SignupForm):
         user.last_name = self.cleaned_data.pop('last_name')
 
         user.save()
+
+
+class ProfileUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ['full_name', 'bio', 'image', 'cover',]
+
+        widgets = {
+            'full_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'bio': forms.TextInput(attrs={'class': 'form-control'}),
+            
+        }

@@ -7,7 +7,7 @@ from django.contrib.auth.models import (
     )
 from django.utils import timezone
 from django.utils.text import slugify
-
+from django.urls import reverse
 from django.dispatch import receiver
 from allauth.account.signals import user_signed_up
 # Create your models here.
@@ -113,6 +113,10 @@ class Profile(models.Model):
         self.full_name = f'{self.user.first_name} {self.user.last_name}'
         self.slug = slugify(self.user.username)
         return super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("page:profile_view", kwargs={"slug": self.slug})
+    
 
     def __str__(self):
         return f'{self.user.username} Profile'
