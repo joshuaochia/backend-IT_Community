@@ -43,8 +43,9 @@ class Category(models.Model):
     name = models.CharField(max_length=20, choices=category_choices)
     slug = models.SlugField()
 
-    def save(self, *args, **kwargs):
+    def save(self, name, *args, **kwargs):
         self.slug = slugify(self.name)
+        self.anem = name
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -64,9 +65,9 @@ class GroupPost(models.Model):
         )
     body = models.CharField(max_length=256, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    categories = models.OneToOneField(
+    categories = models.ForeignKey(
         Category, on_delete=models.CASCADE,
-        null=True
+        null=True,
         )
 
     def get_absolute_url(self):

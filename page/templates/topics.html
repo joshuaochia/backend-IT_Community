@@ -3,10 +3,15 @@
 
 
 {% block body_block %}
-<h1>Pota</h1>
-    
+
+<div class="jumbotron mt-5">
+  <div class="container">
+    <h1 class="display-4 text-center">{{queryset.0.categories|title}}</h1>
+  </div>
+</div>
 
 {% for qs in queryset %}
+
 <div class="card mt-3 mb-3">
     <div class="card-header">
       <a href="{% url 'page:profile_view' slug=user.profile.slug %}">@{{qs.user.username}}</a>

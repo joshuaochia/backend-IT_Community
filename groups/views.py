@@ -99,23 +99,27 @@ class GroupLeaveView(LoginRequiredMixin, RedirectView):
 def group_create_post(request, slug, **kwargs):
 
     group = get_object_or_404(models.Group, slug=slug)
+    category = request.POST['category']
 
-    if request.method == 'POST':
-        category = models.Category.objects.filter(
-            name=request.POST['category']
-            )
+    if request.method == 'POST' and category != 'category...':
+        
         model = models.GroupPost()
         model.groups = group
         model.user = request.user
 
         model.save()
         model.body = request.POST['post-text']
-        model.categories.set(category)
+        model.categories = models.Category.objects.get(name=request.POST['category'])
         model.save()
 
         return HttpResponseRedirect(
             reverse('groups:group_detail', kwargs={'slug': group.slug})
             )
+    else:
+        return HttpResponseRedirect(
+            reverse('groups:group_detail', kwargs={'slug': group.slug})
+            )
+
 
 
 class GroupDeleteView(LoginRequiredMixin, DeleteView):
