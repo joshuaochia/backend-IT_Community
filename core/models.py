@@ -116,18 +116,10 @@ class Profile(models.Model):
 
     def get_absolute_url(self):
         return reverse("page:profile_view", kwargs={"slug": self.slug})
-    
 
     def __str__(self):
         return f'{self.user.username} Profile'
 
-
-# @receiver(post_save, sender=user_signed_up)
-# def create_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
-#         Profile.save()
-#     instance.profile.save()
 
 @receiver(user_signed_up)
 def after_user_signed_up(sender, request, user, **kwargs):

@@ -13,6 +13,7 @@ class GroupCreateForm(forms.ModelForm):
             'description': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
+
 class GroupPostForm(forms.ModelForm):
 
     class Meta:

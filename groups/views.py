@@ -42,7 +42,6 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-
 class GroupListView(ListView,):
     """ Listing available groups """
 
@@ -55,8 +54,6 @@ class GroupListView(ListView,):
 
         context["categories"] = models.Category.objects.all()
         return context
-
-    
 
 
 class GroupJoinView(LoginRequiredMixin, RedirectView):
@@ -102,10 +99,11 @@ class GroupLeaveView(LoginRequiredMixin, RedirectView):
 def group_create_post(request, slug, **kwargs):
 
     group = get_object_or_404(models.Group, slug=slug)
-    
 
     if request.method == 'POST':
-        category = models.Category.objects.filter(name=request.POST['category'])
+        category = models.Category.objects.filter(
+            name=request.POST['category']
+            )
         model = models.GroupPost()
         model.groups = group
         model.user = request.user
@@ -142,5 +140,3 @@ class PostEditView(LoginRequiredMixin, UpdateView):
 
         context["categories"] = models.Category.objects.all()
         return context
-
-

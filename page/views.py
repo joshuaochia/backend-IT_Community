@@ -1,7 +1,5 @@
-from unicodedata import category
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, render
-from django.template import context
 from django.views.generic import (
                                  TemplateView, ListView, DetailView,
                                  CreateView, DeleteView, UpdateView,
@@ -11,15 +9,9 @@ from page.forms import BlogCreateForm, ProfileUpdateForm
 from django.urls import reverse, reverse_lazy
 from groups.models import GroupPost, Category
 from core.models import Profile
-from django.db.models import Count
-
-
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-
-
-
 
 
 class HomePage(TemplateView):
@@ -82,7 +74,6 @@ class ProfileView(LoginRequiredMixin, ListView):
         context["categories"] = Category.objects.all()
         return context
 
-
     def get_object(self):
         return get_object_or_404(Profile, slug=self.kwargs.get('slug'))
 
@@ -91,24 +82,23 @@ class ProfileEdit(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileUpdateForm
     template_name = 'profile_update.html'
-    
+
 
 def is_valid_queryparam(param):
     return param != '' and param is not None
+
 
 def filter(request, slug, **kwargs):
     qs = GroupPost.objects.all()
     categories = Category.objects.all()
     category = str(slug)
- 
-   
-    qs = qs.filter(categories__name=category)
 
+    qs = qs.filter(categories__name=category)
 
     return qs
 
+
 def homeview(request, slug=None):
-      
 
     context = {
         'categories': Category.objects.all()
@@ -120,18 +110,10 @@ def homeview(request, slug=None):
 def filterview(request, slug):
 
     qs = filter(request, slug)
-    
-
 
     context = {
-        'queryset':qs,
+        'queryset': qs,
         'categories': Category.objects.all()
     }
 
-    return render(request, 'topics.html', context )
-
-
-
-
-
-    
+    return render(request, 'topics.html', context)

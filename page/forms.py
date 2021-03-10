@@ -19,8 +19,6 @@ class BlogCreateForm(forms.ModelForm):
         }
 
 
-
-
 class CustomSignupForm(SignupForm):
 
     first_name = forms.CharField(required=True)
@@ -34,34 +32,6 @@ class CustomSignupForm(SignupForm):
                 'class': 'form-control'
             })
 
-        # self.fields['email'].widget.attrs.update({
-        #     'class': 'form-control'
-        # })
-
-        # self.fields['username'].widget.attrs.update({
-        #     'class': 'form-control'
-        # })
-
-        # self.fields['first_name'].widget.attrs.update({
-        #     'class': 'form-control',
-        #     'placeholder': 'Joe'
-        # })
-
-        # self.fields['last_name'].widget.attrs.update({
-        #     'class': 'form-control',
-        #     'placeholder': 'smith'
-        # })
-
-        # self.fields['password1'].widget.attrs.update({
-        #     'class': 'form-control',
-
-        # })
-
-        # self.fields['password2'].widget.attrs.update({
-        #     'class': 'form-control',
-
-        # })
-
     def custom_signup(self, request, user):
         user.first_name = self.cleaned_data.pop('first_name')
         user.last_name = self.cleaned_data.pop('last_name')
@@ -73,10 +43,10 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['full_name', 'bio', 'image', 'cover',]
+        fields = ['full_name', 'bio', 'image', 'cover', ]
 
         widgets = {
             'full_name': forms.TextInput(attrs={'class': 'form-control'}),
             'bio': forms.TextInput(attrs={'class': 'form-control'}),
-            
+
         }

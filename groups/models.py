@@ -1,9 +1,8 @@
-from unicodedata import category
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.urls import reverse
-from ckeditor_uploader.fields import RichTextUploadingField
+
 
 User = get_user_model()
 
@@ -31,12 +30,14 @@ class Group(models.Model):
     def get_absolute_url(self):
         return reverse("groups:group_detail", kwargs={'slug': self.slug})
 
+
 category_choices = [
     ('django', 'django'),
     ('react', 'react'),
     ('laravel', 'lavarel'),
     ('angular', 'angular'),
 ]
+
 
 class Category(models.Model):
     name = models.CharField(max_length=20, choices=category_choices)
@@ -48,6 +49,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class GroupPost(models.Model):
     user = models.ForeignKey(
@@ -62,19 +64,10 @@ class GroupPost(models.Model):
         )
     body = models.CharField(max_length=256, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    categories = models.OneToOneField(Category, on_delete=models.CASCADE, null=True)
-
-
-    # @staticmethod
-    # def get_all_post(self):
-
-    #     return GroupPost.objects.all()
-
-    # @staticmethod
-    # def get_all_post(self):
-
-    #     return GroupPost.objects.filter(category=self.category)
-
+    categories = models.OneToOneField(
+        Category, on_delete=models.CASCADE,
+        null=True
+        )
 
     def get_absolute_url(self):
         return reverse(

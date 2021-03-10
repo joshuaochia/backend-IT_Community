@@ -49,7 +49,7 @@ urlpatterns = [
     path(
         'topic/<str:slug>',
         views.filterview,
-        name = 'topic'
+        name='topic'
     )
-    
+
 ]
