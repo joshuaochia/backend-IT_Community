@@ -1,5 +1,7 @@
+from unicodedata import category
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
+from django.template import context
 from django.views.generic import (
                                  TemplateView, ListView, DetailView,
                                  CreateView, DeleteView, UpdateView,
@@ -7,15 +9,17 @@ from django.views.generic import (
 from .models import Blog
 from page.forms import BlogCreateForm, ProfileUpdateForm
 from django.urls import reverse, reverse_lazy
-from groups.models import GroupPost
+from groups.models import GroupPost, Category
 from core.models import Profile
-from core import models
+from django.db.models import Count
+
+
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
 
-Profile = models.Profile
+
 
 
 class HomePage(TemplateView):
@@ -32,6 +36,12 @@ class BlogPage(ListView):
     template_name = 'blog.html'
     model = Blog
     context_object_name = 'blogs'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["categories"] = Category.objects.all()
+        return context
 
 
 class BlogDetailView(DetailView):
@@ -66,6 +76,13 @@ class ProfileView(LoginRequiredMixin, ListView):
     template_name = 'profile.html'
     context_object_name = 'posts'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["categories"] = Category.objects.all()
+        return context
+
+
     def get_object(self):
         return get_object_or_404(Profile, slug=self.kwargs.get('slug'))
 
@@ -75,4 +92,46 @@ class ProfileEdit(LoginRequiredMixin, UpdateView):
     form_class = ProfileUpdateForm
     template_name = 'profile_update.html'
     
+
+def is_valid_queryparam(param):
+    return param != '' and param is not None
+
+def filter(request, slug, **kwargs):
+    qs = GroupPost.objects.all()
+    categories = Category.objects.all()
+    category = str(slug)
+ 
+   
+    qs = qs.filter(categories__name=category)
+
+
+    return qs
+
+def homeview(request, slug=None):
+      
+
+    context = {
+        'categories': Category.objects.all()
+    }
+
+    return render(request, 'index.html', context)
+
+
+def filterview(request, slug):
+
+    qs = filter(request, slug)
+    
+
+
+    context = {
+        'queryset':qs,
+        'categories': Category.objects.all()
+    }
+
+    return render(request, 'topics.html', context )
+
+
+
+
+
     

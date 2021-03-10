@@ -35,13 +35,28 @@ class GroupDetailView(LoginRequiredMixin, DetailView):
     model = models.Group
     template_name = 'group_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-class GroupListView(ListView):
+        context["categories"] = models.Category.objects.all()
+        return context
+
+
+
+class GroupListView(ListView,):
     """ Listing available groups """
 
     model = models.Group
     context_object_name = 'groups'
     template_name = 'group_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["categories"] = models.Category.objects.all()
+        return context
+
+    
 
 
 class GroupJoinView(LoginRequiredMixin, RedirectView):
@@ -87,12 +102,17 @@ class GroupLeaveView(LoginRequiredMixin, RedirectView):
 def group_create_post(request, slug, **kwargs):
 
     group = get_object_or_404(models.Group, slug=slug)
+    
 
     if request.method == 'POST':
+        category = models.Category.objects.filter(name=request.POST['category'])
         model = models.GroupPost()
-        model.body = request.POST['post-text']
         model.groups = group
         model.user = request.user
+
+        model.save()
+        model.body = request.POST['post-text']
+        model.categories.set(category)
         model.save()
 
         return HttpResponseRedirect(
@@ -115,4 +135,12 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
 class PostEditView(LoginRequiredMixin, UpdateView):
     model = models.GroupPost
     template_name = 'post_edit.html'
-   
+    form_class = forms.GroupPostForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["categories"] = models.Category.objects.all()
+        return context
+
+

@@ -56,7 +56,16 @@
     {{ user.username }}
     {% csrf_token %}
     <textarea class="form-control" name="post-text" id="" cols="30" rows="10" style="resize: none;" placeholder="Whats on your mind?"></textarea><br>
-    <input class='btn btn-primary' type="submit" value="Submit" >
+    <select  name="category" class="form-select form-control" aria-label="Default select example">
+      <option disabled selected>Category</option>
+      <option value="django">Django</option>
+      <option value="react">React</option>
+      <option value="lavarel">Laravel</option>
+      <option value="angular">Angular</option>
+      
+    </select>
+
+    <input class='btn btn-primary mt-3' type="submit" value="Submit" >
 </form>
   
  
@@ -74,7 +83,7 @@
   </div>
   <div class="card-body">
     <h5 class="card-title">{{post.date_created}}</h5>
-    <p class="card-text">{{post.body}}</p>
+    <p class="card-text">{{post.body|safe}}</p>
     
     
       

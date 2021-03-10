@@ -32,16 +32,22 @@ class Group(models.Model):
         return reverse("groups:group_detail", kwargs={'slug': self.slug})
 
 category_choices = [
-    ('Django', 'Django'),
-    ('React', 'React'),
-    ('Laravel', 'Lavarel'),
-    ('Angular', 'Angular'),
+    ('django', 'django'),
+    ('react', 'react'),
+    ('laravel', 'lavarel'),
+    ('angular', 'angular'),
 ]
 
 class Category(models.Model):
-    name = models.CharField(max_length=56, choices=category_choices, default='Django')
-    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    name = models.CharField(max_length=20, choices=category_choices)
+    slug = models.SlugField()
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 class GroupPost(models.Model):
     user = models.ForeignKey(
@@ -54,20 +60,20 @@ class GroupPost(models.Model):
         on_delete=models.CASCADE,
         related_name='post'
         )
-    body = RichTextUploadingField(blank=True, null=True)
+    body = models.CharField(max_length=256, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True)
+    categories = models.OneToOneField(Category, on_delete=models.CASCADE, null=True)
 
 
-    @staticmethod
-    def get_all_post(self):
+    # @staticmethod
+    # def get_all_post(self):
 
-        return GroupPost.objects.all()
+    #     return GroupPost.objects.all()
 
-    @staticmethod
-    def get_all_post(self):
+    # @staticmethod
+    # def get_all_post(self):
 
-        return GroupPost.objects.filter(category=self.category)
+    #     return GroupPost.objects.filter(category=self.category)
 
 
     def get_absolute_url(self):

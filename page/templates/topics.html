@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block body_block %}
+<h1>Pota</h1>
+    
+
+{% for qs in queryset %}
+<div class="card mt-3 mb-3">
+    <div class="card-header">
+      <a href="{% url 'page:profile_view' slug=user.profile.slug %}">@{{qs.user.username}}</a>
+   
+      <a href="{% url 'groups:post_edit' pk=qs.pk %}" class="btn btn-info float-right ml-2">Edit</a>
+      <a href="{% url 'groups:post_delete' pk=qs.pk %}" class="btn btn-warning float-right">Delete</a>
+ 
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{qs.date_created}}</h5>
+      <p class="card-text">{{qs.body|safe}}</p>
+
+    </div>
+</div>
+    
+{% endfor %}
+    
+{% endblock body_block %}
+    

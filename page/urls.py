@@ -6,7 +6,7 @@ app_name = 'page'
 urlpatterns = [
     path(
         '',
-        views.HomePage.as_view(),
+        views.homeview,
         name='home_page'),
     path(
         'resources/',
@@ -44,6 +44,12 @@ urlpatterns = [
     path(
         '<str:slug>/edit',
         views.ProfileEdit.as_view(),
-        name='profile_edit'
+        name='profile_edit',
+    ),
+    path(
+        'topic/<str:slug>',
+        views.filterview,
+        name = 'topic'
     )
+    
 ]

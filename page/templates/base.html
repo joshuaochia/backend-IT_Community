@@ -28,15 +28,23 @@
                 <a id='navbar' class="nav-link" href="{% url 'groups:group_page' %}">Groups</a>
               </li>
               <li class="nav-item dropdown pl-5">
-                <a id='navbar' class="nav-link dropdown-toggle"href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Top Topics</a>
+                
+
+                <a id='navbar' class="nav-link dropdown-toggle"href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hot Topics</a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Django  <span style="font-size: 10px;" class="text-muted float-right">10+ post</span></a>
-                  <a class="dropdown-item" href="#">React<span style="font-size: 10px;" class="text-muted float-right">10+ post</span></a>
-                  <a class="dropdown-item" href="#">Lavarel<span style="font-size: 10px;" class="text-muted float-right">10+ post</span></a>
-                  <a class="dropdown-item" href="#">Angular<span style="font-size: 10px;" class="text-muted float-right">10+ post</span></a>
+          
+                  {% for cat in categories %}
+                   
+                  <a class="dropdown-item" href="{% url 'page:topic' slug=cat.slug%}"><option value="{{cat}}">{{cat|title}}</option></a>
+                  {% endfor %}
+           
+                    
+                  
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">View all Hot Topics</a>
+                  
                 </div>
+           
               </li>
               <li class="nav-item pl-5">
                 <a id='navbar' class="nav-link" href="{% url 'page:resources_page' %}">Resources</a>
